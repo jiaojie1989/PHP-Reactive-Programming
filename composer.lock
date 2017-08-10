@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0feec505e68daabcd56cb2c3517e097e",
-    "content-hash": "e272da64890f52111273475dfc039a47",
+    "hash": "da4a6427d1e021e03b2240326f07298c",
+    "content-hash": "5c29748c349fa4ce7b0d8d54f877c9ce",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -793,16 +793,16 @@
         },
         {
             "name": "react/promise",
-            "version": "dev-master",
+            "version": "v2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/promise.git",
-                "reference": "19f9901eb9e910427cfca69e78e6bd015c844be3"
+                "reference": "62785ae604c8d69725d693eb370e1d67e94c4053"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/reactphp/promise/19f9901eb9e910427cfca69e78e6bd015c844be3.zip",
-                "reference": "19f9901eb9e910427cfca69e78e6bd015c844be3",
+                "url": "https://files.phpcomposer.com/files/reactphp/promise/62785ae604c8d69725d693eb370e1d67e94c4053.zip",
+                "reference": "62785ae604c8d69725d693eb370e1d67e94c4053",
                 "shasum": ""
             },
             "require": {
@@ -835,7 +835,7 @@
                 "promise",
                 "promises"
             ],
-            "time": "2017-08-07 10:38:52"
+            "time": "2017-03-25 12:08:31"
         },
         {
             "name": "reactivex/rxphp",
@@ -1821,9 +1821,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "react/promise": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

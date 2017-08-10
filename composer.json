@@ -16,7 +16,7 @@
         "symfony/console": "^3.3",
         "symfony/event-dispatcher": "v3.3.6",
         "phpunit/phpunit": "5.7.21",
-        "react/promise": "dev-master"
+        "react/promise": "v2.5.1"
     },
     "autoload": {
         "psr-4": {
