@@ -1,8 +1,8 @@
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once '../Chapter 02/CURLObservable.php';
-require_once '../Chapter 02/JSONDecodeOperator.php';
+require_once '../Chapter02/CURLObservable.php';
+require_once '../Chapter02/JSONDecodeOperator.php';
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,9 +30,9 @@ class RedditCommand extends Command
 
     /** @var OutputInterface */
     private $output;
-
     private $scheduler;
     private $loop;
+
     /** @var Process */
     private $process;
 
@@ -46,7 +46,6 @@ class RedditCommand extends Command
     public function __construct($name = null)
     {
         parent::__construct($name);
-
     }
 
     protected function configure()
@@ -69,28 +68,27 @@ class RedditCommand extends Command
         $this->intervalObservable = new IntervalObservable(100, $scheduler);
 
         $disposable = $this->intervalObservable
-            ->map(function() use ($stdin) {
-                return trim(fread($stdin, 1024));
-            })
-            ->filter(function($str) {
-                return strlen($str) > 0;
-            })
-            ->subscribe($this->subject);
+                ->map(function() use ($stdin) {
+                    return trim(fread($stdin, 1024));
+                })
+                ->filter(function($str) {
+                    return strlen($str) > 0;
+                })
+                ->subscribe($this->subject);
 
         $this->subject
-            ->filter(function($value) {
-                return strval($value) == 'q';
-            })
-            ->take(1)
-            ->subscribeCallback(null, null,
-                    function() use ($disposable, $output, $stdin) {
-                fclose($stdin);
-                $output->writeln('<comment>Good bye!</comment>');
-                if ($this->process && $this->process->isRunning()) {
-                    $this->process->stop();
+                ->filter(function($value) {
+                    return strval($value) == 'q';
+                })
+                ->take(1)
+                ->subscribeCallback(null, null, function() use ($disposable, $output, $stdin) {
+                    fclose($stdin);
+                    $output->writeln('<comment>Good bye!</comment>');
+                    if ($this->process && $this->process->isRunning()) {
+                        $this->process->stop();
+                    }
+                    $disposable->dispose();
                 }
-                $disposable->dispose();
-            }
         );
 
         $this->askSubreddit();
@@ -111,33 +109,37 @@ class RedditCommand extends Command
 
     protected function refreshList()
     {
-        $this->process = new Process('php wrap_curl.php curl ' . sprintf(self::API_URL, $this->subreddit));
+        $this->process = new Process('/opt/php/bin/php wrap_curl.php curl ' . sprintf(self::API_URL, $this->subreddit));
         $this->process->start();
 
         $this->intervalObservable
-            ->takeWhile(function() {
-                return $this->process->isRunning();
-            })
-            ->subscribeCallback(null, null, function() {
-                $jsonString = $this->process->getOutput();
-                if (!$jsonString) {
-                    return;
-                }
+                ->takeWhile(function() {
+                    return $this->process->isRunning();
+                })
+                ->subscribeCallback(null, null, function() {
+                    if (!$this->process->isSuccessful()) {
+                        $info = $this->process->getErrorOutput();
+                        var_dump($info);
+                    }
+                    $jsonString = $this->process->getOutput();
+                    if (!$jsonString) {
+                        return;
+                    }
 
-                $response = json_decode($jsonString, true);
-                $articles = $response['data']['children'];
+                    $response = json_decode($jsonString, true);
+                    $articles = $response['data']['children'];
 
-                $this->clearScreen();
-                foreach ($articles as $i => $entry) {
-                    $this->output->writeln("<info>${i}</info> " . $entry['data']['title']);
-                }
+                    $this->clearScreen();
+                    foreach ($articles as $i => $entry) {
+                        $this->output->writeln("<info>${i}</info> " . $entry['data']['title']);
+                    }
 
-                $this->printHelp();
-                $template = ', <info>[%d-%d]</info>: Read article';
-                $this->output->writeln(sprintf($template, 0, count($articles)));
+                    $this->printHelp();
+                    $template = ', <info>[%d-%d]</info>: Read article';
+                    $this->output->writeln(sprintf($template, 0, count($articles)));
 
-                $this->chooseArticleDetail($articles);
-            });
+                    $this->chooseArticleDetail($articles);
+                });
 
 //        $curlObservable = new CurlObservable(sprintf(self::API_URL, $this->subreddit));
 //        $curlObservable
@@ -168,14 +170,14 @@ class RedditCommand extends Command
     protected function chooseArticleDetail($articles)
     {
         $this->articleDetailDisposable = $this->subject
-            ->filter(function($index) use ($articles) {
-                return is_numeric($index) &&
-                    $index >= 0 && $index < count($articles);
-            })
-            ->subscribeCallback(function($value) use ($articles) {
-                $this->articleDetailDisposable->dispose();
-                $this->showArticleDetail($articles[$value]['data']);
-            });
+                ->filter(function($index) use ($articles) {
+                    return is_numeric($index) &&
+                            $index >= 0 && $index < count($articles);
+                })
+                ->subscribeCallback(function($value) use ($articles) {
+            $this->articleDetailDisposable->dispose();
+            $this->showArticleDetail($articles[$value]['data']);
+        });
     }
 
     protected function showArticleDetail($article)
@@ -189,15 +191,14 @@ class RedditCommand extends Command
         $this->output->writeln(', <info>[b]</info> Back to the list');
 
         $this->backActionDisposable = $this->subject
-            ->filter(function($value) {
-                return 'b' == $value;
-            })
-            ->subscribeCallback(function($value) {
-                $this->backActionDisposable->dispose();
-                $this->refreshList();
-            });
+                ->filter(function($value) {
+                    return 'b' == $value;
+                })
+                ->subscribeCallback(function($value) {
+            $this->backActionDisposable->dispose();
+            $this->refreshList();
+        });
     }
-
 
     protected function printHelp()
     {
@@ -211,6 +212,3 @@ class RedditCommand extends Command
     }
 
 }
-
-
-

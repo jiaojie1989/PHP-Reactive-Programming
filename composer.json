@@ -1,0 +1,29 @@
+{
+    "name": "jiaojie/php-reactive-programming",
+    "description": "PHP Reactive Programming, published by Packt",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "JIAO Jie",
+            "email": "thomasjiao@vip.qq.com"
+        }
+    ],
+    "require": {
+        "symfony/process": "^3.3",
+        "reactivex/rxphp": "^1.5",
+        "react/event-loop": "^0.4.3",
+        "symfony/console": "^3.3",
+        "symfony/event-dispatcher": "v3.3.6",
+        "phpunit/phpunit": "5.7.21",
+        "react/promise": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rx\\": "vendor/reactivex/rxphp/test/Rx/"
+        },
+        "files": [
+            "vendor/reactivex/rxphp/test/helper-functions.php"
+        ]
+    }
+}

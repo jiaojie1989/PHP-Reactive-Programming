@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once '../Chapter 02/DebugSubject.php';
+require_once '../Chapter02/DebugSubject.php';
 
 Rx\Observable::range(1,6)
     ->map(function($val) {

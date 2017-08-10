@@ -9,7 +9,7 @@ $deferred = new Deferred();
 $deferred->promise()
     ->then(function($val) {
         echo "Then: $val\n";
-        throw new \Exception('This is an exception');
+//        throw new \Exception('This is an exception');
     })
     ->otherwise(function($reason) {
         echo 'Error: '. $reason->getMessage() . "\n";
@@ -19,4 +19,4 @@ $deferred->promise()
     });
 
 //$deferred->resolve(42);
-$deferred->reject(new \Exception('This is an exception'));
+$deferred->reject(new \Exception('This is an exception 2'));
