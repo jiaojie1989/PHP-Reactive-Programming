@@ -1,6 +1,6 @@
 <?php
 
-include __DIR__ . "/vendor/autoload.php";
+include __DIR__ . "/../vendor/autoload.php";
 
 use Interop\Async\Loop;
 use WyriHaximus\React\AsyncInteropLoop\ReactDriverFactory;

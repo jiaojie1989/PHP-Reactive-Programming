@@ -16,7 +16,10 @@
         "symfony/console": "^3.3",
         "symfony/event-dispatcher": "v3.3.6",
         "phpunit/phpunit": "5.7.21",
-        "react/promise": "v2.5.1"
+        "react/promise": "v2.5.1",
+        "wyrihaximus/react-async-interop-loop": "^0.1.0",
+        "ratchet/pawl": "v0.2.2",
+        "cboden/ratchet": "*"
     },
     "autoload": {
         "psr-4": {

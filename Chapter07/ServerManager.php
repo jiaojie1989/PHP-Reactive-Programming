@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../Chapter 03/ProcessObservable.php';
+require_once __DIR__ . '/../Chapter03/ProcessObservable.php';
 require_once __DIR__ . '/GameServerStreamEndpoint.php';
 
 use Rx\Scheduler\EventLoopScheduler;
@@ -136,7 +136,8 @@ class ServerManagerCommand extends Command
 
     private function spawnNewServer() {
         $port = $this->startPort++;
-        $cmd = escapeshellcmd('php GameServer.php game-server ' . $this->unixSocketFile . ' ' . $port);
+        $cmd = escapeshellcmd('/opt/php/bin/php GameServer.php game-server ' . $this->unixSocketFile . ' ' . $port);
+        var_dump($cmd);
         $process = new ProcessObservable($cmd);
 
         $this->output->writeln('Spawning new process on port ' . $port);

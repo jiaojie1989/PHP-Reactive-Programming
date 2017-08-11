@@ -1,7 +1,7 @@
 <?php
 
 require_once '../vendor/autoload.php';
-require_once '../Chapter 02/DebugSubject.php';
+require_once '../Chapter02/DebugSubject.php';
 
 use Rx\Observable;
 use React\EventLoop\StreamSelectLoop;

@@ -1,7 +1,7 @@
 <?php
 
 require_once '../vendor/autoload.php';
-require_once '../Chapter 02/JSONDecodeOperator.php';
+require_once '../Chapter02/JSONDecodeOperator.php';
 require_once './StreamObservable.php';
 
 use React\Promise\Deferred;
