@@ -147,6 +147,8 @@ class ServerManagerCommand extends Command
             },
             function() use ($port) {
                 $this->output->writeln(sprintf('%d: Ended', $port));
+                $this->servers[$port]->close();
+                unset($this->servers[$port]);
             }, $this->scheduler
         );
     }
