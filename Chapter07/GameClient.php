@@ -31,9 +31,16 @@ class GameClient extends Command
         connect('ws://' . $address . ':' . $port, [], [], $loop)->then(function($conn) use ($loop, $stdin, $output) {
             $loop->addReadStream($stdin, function($stream) use ($conn, $output) {
                 $str = trim(fgets($stream, 1024));
+                var_dump(get_class($conn));
+                
                 $conn->send($str);
 
                 $output->writeln("> ${str}");
+            });
+            
+            $conn->on('close', function() use($conn, $output) {
+                $output->writeln(">>> connection close");
+                throw new \Exception("closed");
             });
 
             $conn->on('message', function($str) use ($conn, $output) {
