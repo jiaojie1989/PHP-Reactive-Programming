@@ -137,7 +137,6 @@ class ServerManagerCommand extends Command
     private function spawnNewServer() {
         $port = $this->startPort++;
         $cmd = escapeshellcmd('/opt/php/bin/php GameServer.php game-server ' . $this->unixSocketFile . ' ' . $port);
-        var_dump($cmd);
         $process = new ProcessObservable($cmd);
 
         $this->output->writeln('Spawning new process on port ' . $port);
